@@ -1,0 +1,46 @@
+<html>
+<header>
+	<link
+		href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css"
+		rel="stylesheet">
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script
+		src="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js"></script>
+</header>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-8">
+    		<ul class="nav nav-tabs"> 
+        		<li class="active"><a href="#">Top DAO methods</a></li>
+        		<li><a href="#">Top SOA methods</a></li>
+        		<li><a href="#">Top REST methods</a></li>
+   			 </ul>
+			</div>
+		</div>
+	</div>
+	<div id="topDAOMethodsDiv">
+		<table class="table table-striped" id="runRecordTable">
+			<tr>
+				<th>Class</th>
+				<th>Method</th>
+				<th>Called Times</th>
+				<th>Total Time Cost</th>
+			</tr>
+#foreach ($record in $records)
+			<tr>
+				<td>$record.className</td>
+				<td>$record.methodName</td>
+				<td>$record.calledTimes</td>
+				<td>$record.totalCostTimeInMills</td>
+			</tr>
+#end
+		</table>
+	</div>
+	<div id="topSOAMethodsDiv">
+	</div>
+	<div id="topRESTMethodsDiv">
+	</div>
+</div>
+</body>
+</html>
