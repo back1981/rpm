@@ -8,9 +8,15 @@ public class MethodCallRecord {
 	private String runId;
 	private long duration;
 	private long timestamp;
-	
-	
+	private String[] stackTrace = null;
 
+	
+	public String[] getStackTrace() {
+		return stackTrace;
+	}
+	public void setStackTrace(String[] stackTrace) {
+		this.stackTrace = stackTrace;
+	}
 	public long getDuration() {
 		return duration;
 	}

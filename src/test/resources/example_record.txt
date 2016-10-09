@@ -1,0 +1,1 @@
+class=com.yj.UserDao, method=isCached, stackTrace=[com.yj.UserDao:findAll, com.yj.UserService:findAll], duration=100

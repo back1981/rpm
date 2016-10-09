@@ -23,9 +23,13 @@ public class Main implements CommandLineRunner {
 
 		
 		public void run(String... args) throws Exception {
-
+//			System.out.println(Thread.currentThread().getStackTrace());
+//			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+//			for(StackTraceElement e : stackTrace) {
+//				e.getClassName() 
+//			}
 			repository.deleteAll();
-
+			String[] stackTrace = new String[]{"com.yj.UserDao:findAll", "com.yj.UserService:findAll"};
 //			// save a couple of customers
 			MethodCallRecord r = new MethodCallRecord();
 			r.setAppName("raptorApp");
@@ -35,6 +39,7 @@ public class Main implements CommandLineRunner {
 			r.setClassName("com.ebay.common.user.userDao");
 			r.setMethodName("findAll");
 			r.setTimestamp(System.currentTimeMillis());
+			r.setStackTrace(stackTrace);
 //			r.setTotalCostTimeInMills(1000);
 //			repository.save(r);
 			recordService.saveMethodCallRecord(r);

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,18 @@ public class AggrService implements IAggrService{
 	private IMethodCallRecordService mcrService = null;
 	
 	public List<CostlyMethod> findCostlyMethod(String runId, int n) {
-		return findCostlyMethod(mcrService.findByRunId(runId), n);
+		return findCostlyMethod(mcrService.findByRunId(runId), n, null);
 	}
-	public List<CostlyMethod> findCostlyMethod(List<MethodCallRecord> records, int n) {
+	
+	public List<CostlyMethod> findCostlyDaoMethod(String runId, int n) {
+		return findCostlyMethod(mcrService.findByRunId(runId), n, m->m.getClassName().endsWith("DAO"));
+	}
+	
+	public List<CostlyMethod> findCostlySoaMethod(String runId, int n) {
+		return findCostlyMethod(mcrService.findByRunId(runId), n, m->m.getClassName().endsWith("Consumer"));
+	}
+	
+	public List<CostlyMethod> findCostlyMethod(List<MethodCallRecord> records, int n, Predicate<CostlyMethod> filter) {
 		// List<CostlyMethod> costlyMethods = new LinkedList<CostlyMethod>();
 		Map<String, CostlyMethod> costlyMethods = new HashMap<String, CostlyMethod>();
 		for (MethodCallRecord r : records) {
@@ -37,8 +47,14 @@ public class AggrService implements IAggrService{
 				costlyMethods.put(key, cm);
 			}
 		}
-		return costlyMethods.values().stream().sorted(new CostlyMethodComparator()).limit(n).collect(toList());
+		if(filter != null) {
+			return costlyMethods.values().stream().filter(filter).sorted(new CostlyMethodComparator()).limit(n).collect(toList());
+		} else {
+			return costlyMethods.values().stream().sorted(new CostlyMethodComparator()).limit(n).collect(toList());
+		}
 	}
+	
+	
 
 	public class CostlyMethodComparator implements Comparator<CostlyMethod> {
 
